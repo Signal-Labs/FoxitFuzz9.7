@@ -1,0 +1,25 @@
+- Found rjohnsons harness at https://www.cnblogs.com/st404/p/9384704.html
+- BP on all vtable pointers of the convert object
+- convert->vtable[3] first called (0 indexed), 2 params: 0x2, (WSTR) "en-US"
+- convert->vtable[1] second called, 2 params: 0x2, <UNUSED POINTER?>
+- convert->vtable[2] third called, 1 param: LPWSTR PrinterName (e.g. "Foxit Reader PDF Printer")
+- convert->vtable[0] fourth called, 11 param: converter_buf struct (size 0x1e50, or 0n7760, on heap), contents: 
+converter_buf:
+<pointer to foxitreader.exe+0x036f5690>
+<0x0b>
+<fill 0x00>....
+(&converter_buf+0xb68): <WSTR "Foxit Reader Printer Version 9.7.1.2227">
+<fill 0x00>....
+(&converter_buf+0x1624): <WSTR input file path, e.g. "c:\Users\User2\Pictures\file.png">
+<fill 0x00>....
+(&converter_buf+0x182c): <WSTR output file path, e.g. "c:\Users\User2\Pictures\output.pdf">
+<fill 0x00>....
+(&converter_buf+0x1e4c): 0x07
+- param2: 0x02, <unsused?>, <unused?>....
+- convert->vtable[9] fifth called, 0 params
+
+
+Notes:
+- Need to load FoxitReader.exe but also need to resolve its import table manually!
+- FoxitReader.exe gets called into and calls HeapAlloc but its tries to get the default heap from an offset in the binary which, without properly running the app is 0 instead of its
+actual value! we need to overwrite this offset with the value from GetProcessHeap(), so we need to overwrite foxitreader+04726114 with the heap identifier
