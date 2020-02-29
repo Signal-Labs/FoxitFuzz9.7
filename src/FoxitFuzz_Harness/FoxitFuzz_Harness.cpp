@@ -1,6 +1,6 @@
 /*
 FoxitFuzz_Harness.cpp - simple console wrapper for ConvertToPDF_x86.dll.
-Created by Christopher Vella (@Kharos).
+Created by Christopher Vella (@Kharosx0).
 Modified and updated from Richard Johnsons (@richinseattle / rjohnson@moflow.org) work on versions 9.0 and 7.3.4. Significant changes were made to update this for Foxit API version 9.7
 
 NOTES:
