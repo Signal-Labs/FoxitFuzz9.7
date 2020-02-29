@@ -81,7 +81,7 @@ int init_target_library()
     cout << "Calling InitPdfConverter\n";
     const wchar_t* lang = L"en-US";
     retVal = vfp_table->InitPdfConverter(pdfconverter, 2, lang);
-    if (retVal)
+    if (retVal != 1)
         cout << "Error: InitPdfConverter(): " << retVal << endl;
 
     cout << "Calling FoxitSDKMsgStart\n";
